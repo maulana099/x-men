@@ -3,36 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SuperHero;
-use DataTables;
-use DB;
+use App\Models\Skill;
 
-class SuperHeroController extends Controller
+class SkillController extends Controller
 {
     /**
     * Display a listing of the resource.
     *
     * @return \Illuminate\Http\Response
     */
-    public function index(Request $request){
-        if ($request->ajax()) {
-            DB::statement(DB::raw('set @rownum=0'));
-            $data = SuperHero::orderBy('id', 'desc');
-            $data->select('*', DB::raw('@rownum := @rownum +1 as rownum'));
-
-            return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $btn = "<a href='#' class='btn btn-primary'>view details</a>
-                <a href='#' class='btn btn-danger'>Hapus</a>";
-                return $btn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
-        }
-
-        return view('superhero.index', ['url' => $request->url()]);
+    public function index()
+    {
+        //
     }
+
     /**
     * Show the form for creating a new resource.
     *
@@ -51,7 +35,11 @@ class SuperHeroController extends Controller
     */
     public function store(Request $request)
     {
-        //
+        $data = new Skill;
+        $data->superhero_id = $request->superhero_id;
+        $data->skill = $request->skill;
+        $data->save();
+        return redirect()->back()->with('success', 'Skill berhasil di Simpan');
     }
 
     /**
@@ -62,9 +50,7 @@ class SuperHeroController extends Controller
     */
     public function show($id)
     {
-        $data = SuperHero::with('skill')->find($id);
-        // return $data;
-        return view('superhero.detail', compact('data'));
+        //
     }
 
     /**
@@ -87,11 +73,7 @@ class SuperHeroController extends Controller
     */
     public function update(Request $request, $id)
     {
-        $data = SuperHero::find($id);
-        $data->nama = $request->nama;
-        $data->jenis_kelamin = $request->jenis_kelamin;
-        $data->save();
-        return redirect()->back()->with('success-hero', 'hero berhasil di update');
+        //
     }
 
     /**
@@ -102,6 +84,8 @@ class SuperHeroController extends Controller
     */
     public function destroy($id)
     {
-        //
+        $data = Skill::find($id);
+        $data->delete();
+        return redirect()->back()->with('delete-skill', 'skill berhasil di delete');
     }
 }
