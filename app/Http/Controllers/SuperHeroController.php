@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\SuperHero;
 use App\Models\Skill;
 use DataTables;
+use App\Exports\DataExport;
 use DB;
+use PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SuperHeroController extends Controller
 {
@@ -117,4 +120,16 @@ class SuperHeroController extends Controller
     {
         //
     }
+
+    public function export(Request $request){
+        return Excel::download(new DataExport($request), 'data-export.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $data = SuperHero::with('skill')->get();
+        $pdf = PDF::loadView('superhero.pdf', compact('data'));
+        return $pdf->download('superhero.pdf');
+    }
+
 }

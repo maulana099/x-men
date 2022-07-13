@@ -235,11 +235,11 @@
             <div class="container">
                 <div class="row mb-3 mt-5">
                     <div class="col-md-10">
-                        <h2>Task #4 Export Database</h2>
+                        <h2>Task #4 Export data Excel dan PDF</h2>
                     </div>
                     <div class="col-md-2 mt-1">
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                        <a href="{{ route('xmen.index')}}" class="btn btn-danger">Hapus</a>
+                        <a href="{{route('export.excel')}}" type="button" class="btn btn-primary">EXCEL</a>
+                        <a href="{{ route('export.pdf') }}" type="button" class="btn btn-success">PDF</a>
                     </div>
                 </div>
             </div>
