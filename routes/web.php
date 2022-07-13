@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 //controller
 use App\Http\Controllers\SuperHeroController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\MenikahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ use App\Http\Controllers\SkillController;
 
 Route::resource('xmen', SuperHeroController::class);
 Route::resource('skill', SkillController::class);
+Route::resource('menikah', MenikahController::class);

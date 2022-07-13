@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SuperHero;
+use App\Models\Skill;
 use DataTables;
 use DB;
 
@@ -14,6 +15,7 @@ class SuperHeroController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
+
     public function index(Request $request){
         if ($request->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
@@ -23,15 +25,26 @@ class SuperHeroController extends Controller
             return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
-                $btn = "<a href='#' class='btn btn-primary'>view details</a>
-                <a href='#' class='btn btn-danger'>Hapus</a>";
+                $btn = "
+                <a href='" . route('xmen.show', $row->id) . "' class='btn btn-primary'>View Detail</a>";
                 return $btn;
             })
             ->rawColumns(['actions'])
             ->make(true);
         }
 
-        return view('superhero.index', ['url' => $request->url()]);
+
+        $detail = SuperHero::with('skill')->where('id', 2)->first();
+
+        $hero = SuperHero::get();
+        $skill = Skill::whereIn('superhero_id', $request)->get();
+
+        return view('superhero.index', [
+            'url' => $request->url(),
+            'detail' => $detail,
+            'hero' => $hero,
+            'skill' => $skill
+        ]);
     }
     /**
     * Show the form for creating a new resource.
