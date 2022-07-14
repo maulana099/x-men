@@ -19,57 +19,79 @@ $.fn.loadTable = function (columns = [], columnDefs = [], ajaxOptions = {}, call
 }
 
 
-$.fn.deleteDataPost = function () {
-    this.on('click', function (e) {
-        let type = $(this).data('type');
-        let url = $(this).data('url');
-        let id = $(this).data('id');
-        let _ = $(this);
+$('body').on('click', '.btn-delete', function (event) {
+    event.preventDefault();
 
-        Swal.fire({
-            icon: 'warning',
-            title: _.data('message') || 'Anda yakin akan menghapus Data?',
-            showCancelButton: true,
-            confirmButtonText: `Ya`,
-        }).then(({ isConfirmed }) => {
-            if (isConfirmed) {
-                loadingAlert();
+    var me = $(this),
+    url = me.attr('href'),
+    csrf_token = $('meta[name="csrf-token"]').attr('content');
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
 
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {
-                        id: id,
-                        _method: 'DELETE',
-                    },
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'It was succesfully deleted',
-                            showCancelButton: false,
-                            allowOutsideClick: false,
-                            confirmButtonText: `Ya`,
-                        }).then(({ isConfirmed }) => {
-                            if (isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: `Please try again`
-                        });
-                    }
-                });
-            }
-        });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            '_method': 'DELETE',
+            '_token': csrf_token
+        },
+        success: function (response) {
+            $('#table_data_index').DataTable().ajax.reload();
+
+        },
+    });
+
+});
+
+
+$('body').on('click', '.btn-show', function(e){
+    e.preventDefault()
+
+    var me = $(this),
+    url = me.attr('href')
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType : 'html',
+        success : function (response){
+            $('#view_detail').html(response);
+        }
     })
-}
+});
+
+$('#btn-save').click(function (event) {
+    event.preventDefault();
+
+    var form = $('#modal-body form'),
+        url = form.attr('action');
+
+    form.find('.help-block').remove();
+    form.find('.form-group').removeClass('has-error');
+
+    $.ajax({
+        url : url,
+        type: 'POST',
+        data : form.serialize(),
+        success: function (response) {
+            window.location.reload();
+        },
+    })
+});
+
+$('body').on('click', '.btn-show-skill', function(e){
+    // console.log('test')
+    e.preventDefault()
+
+    var me = $(this),
+    url = me.attr('href')
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType : 'html',
+        success : function (response){
+            $('#view_detail_skill').html(response);
+        }
+    })
+});
+

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Skill;
+use App\Models\SuperHero;
+use DB;
+use DataTables;
 
 class SkillController extends Controller
 {
@@ -12,9 +15,26 @@ class SkillController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // skill view
+        if ($request->ajax()) {
+            DB::statement(DB::raw('set @rownum=0'));
+            $data = Skill::orderBy('id', 'desc');
+            $data->select('*', DB::raw('@rownum := @rownum +1 as rownum'));
+
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $btn = "
+                <a href='" . route('skill.show', $row->id) . "' class='btn btn-primary btn-show-skill'>View Detail</a>";
+                return $btn;
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+        }
+
+        return view('superhero.skill', ['url' => $request->url()]);
     }
 
     /**
@@ -39,7 +59,6 @@ class SkillController extends Controller
         $data->superhero_id = $request->superhero_id;
         $data->skill = $request->skill;
         $data->save();
-        return redirect()->back()->with('success', 'Skill berhasil di Simpan');
     }
 
     /**
@@ -50,7 +69,8 @@ class SkillController extends Controller
     */
     public function show($id)
     {
-        //
+        $data = Skill::with('superhero')->find($id);
+        return view('superhero.detail-skill', compact('data'));
     }
 
     /**
@@ -73,7 +93,10 @@ class SkillController extends Controller
     */
     public function update(Request $request, $id)
     {
-        //
+        $data = Skill::find($id);
+        $data->skill = $request->skill;
+        $data->save();
+        return redirect()->back();
     }
 
     /**
@@ -86,6 +109,6 @@ class SkillController extends Controller
     {
         $data = Skill::find($id);
         $data->delete();
-        return redirect()->back()->with('delete-skill', 'skill berhasil di delete');
+        return redirect()->back();
     }
 }

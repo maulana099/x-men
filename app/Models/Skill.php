@@ -12,6 +12,6 @@ class Skill extends Model
     protected $table = 'm_skill';
 
     public function superhero(){
-        return $this->belongsTo(SuperHero::class);
+        return $this->hasMany(SuperHero::class, 'id', 'superhero_id');
     }
 }

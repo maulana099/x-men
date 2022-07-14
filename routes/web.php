@@ -25,6 +25,9 @@ use App\Http\Controllers\MenikahController;
 
 Route::resource('xmen', SuperHeroController::class);
 Route::resource('skill', SkillController::class);
-Route::resource('menikah', MenikahController::class);
+
+
 Route::get('/export-excell', [SuperHeroController::class, 'export'])->name('export.excel');
 Route::get('/export-pdf', [SuperHeroController::class, 'exportPdf'])->name('export.pdf');
+
+Route::get('/skill/id/{id}', [SkillController::class, 'skilladd']);
