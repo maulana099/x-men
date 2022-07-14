@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Jul 2022 pada 11.28
+-- Waktu pembuatan: 14 Jul 2022 pada 08.50
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -59,7 +59,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2022_07_12_052318_create_m_superhero_table', 1),
-(6, '2022_07_12_052456_create_m_skill_table', 1);
+(6, '2022_07_12_052456_create_m_skill_table', 1),
+(7, '2022_07_12_184951_create_hero_menikah_table', 2);
 
 -- --------------------------------------------------------
 
@@ -74,6 +75,18 @@ CREATE TABLE `m_skill` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `m_skill`
+--
+
+INSERT INTO `m_skill` (`id`, `superhero_id`, `skill`, `created_at`, `updated_at`) VALUES
+(1, 3, 'Bisa Sembuh Dengan Cepat', '2022-07-13 23:37:04', '2022-07-13 23:37:04'),
+(2, 3, 'Mempunyai Cakar Yang Lebih Kuat Dari Baja', '2022-07-13 23:37:26', '2022-07-13 23:37:26'),
+(3, 10, 'Bisa Terbang', '2022-07-13 23:37:55', '2022-07-13 23:37:55'),
+(4, 10, 'Bisa Membuat Hujan', '2022-07-13 23:38:13', '2022-07-13 23:38:13'),
+(5, 10, 'Bisa Membuat Petir', '2022-07-13 23:38:24', '2022-07-13 23:38:24'),
+(6, 10, 'Bisa Mengendalikan Angin dan Badai', '2022-07-13 23:38:38', '2022-07-13 23:38:38');
 
 -- --------------------------------------------------------
 
@@ -94,11 +107,11 @@ CREATE TABLE `m_superhero` (
 --
 
 INSERT INTO `m_superhero` (`id`, `nama`, `jenis_kelamin`, `created_at`, `updated_at`) VALUES
-(1, 'Proffesor X	', 'Laki-Laki', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
-(2, 'Wolverine', 'Laki-Laki', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
-(3, 'Raven', 'Perempuan', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
-(4, 'Beast', 'Laki-Laki', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
-(5, 'Storm', 'Perempuan', '2022-07-11 22:44:00', '2022-07-11 22:44:00');
+(1, 'Proffesor X', 'Laki-Laki', '2022-07-11 22:44:00', '2022-07-13 13:50:42'),
+(3, 'Wolverine', 'Laki-Laki', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
+(4, 'Raven', 'Perempuan', '2022-07-11 22:44:00', '2022-07-11 22:44:00'),
+(9, 'Beast', 'Laki-Laki', '2022-07-13 23:30:43', '2022-07-13 23:30:43'),
+(10, 'Storm', 'Perempuan', '2022-07-13 23:33:52', '2022-07-13 23:33:52');
 
 -- --------------------------------------------------------
 
@@ -211,19 +224,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_skill`
 --
 ALTER TABLE `m_skill`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_superhero`
 --
 ALTER TABLE `m_superhero`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
